@@ -1,0 +1,37 @@
+//moduleA头文件
+#ifndef __MODULE_A_H //对于模块A来说，这个宏是为了防止头文件的重复引用
+#define __MODULE_A_H
+int fun(int, int);
+#endif
+ 
+//moduleA实现文件moduleA.C //模块A的实现部分并没有改变
+#include"moduleA"
+int fun(int a, int b)
+{
+return a+b;
+}
+ 
+//moduleB头文件
+#idndef __MODULE_B_H //很明显这一部分也是为了防止重复引用
+#define __MODULE_B_H
+#ifdef __cplusplus //而这一部分就是告诉编译器，如果定义了__cplusplus(即如果是cpp文件， 
+extern "C"{ //因为cpp文件默认定义了该宏),则采用C语言方式进行编译
+#include"moduleA.h"
+#endif
+… //其他代码
+ 
+#ifdef __cplusplus
+}
+#endif
+#endif
+ 
+//moduleB实现文件 moduleB.cpp //B模块的实现也没有改变，只是头文件的设计变化了
+#include"moduleB.h"
+int main()
+{
+　　cout<<fun(2,3)<<endl;
+}
+
+
+
+原文链接：https://www.cnblogs.com/carsonzhu/p/5272271.html
